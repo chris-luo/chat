@@ -1,0 +1,10 @@
+<ul>
+  <li *ngFor="let message of messages">
+    {{ message }}
+  </li>
+</ul>
+
+<form #f="ngForm" (ngSubmit)="onSendMessage(f)">
+  <input type="text" ngModel name="message" />
+  <button type="submit">Send</button>
+</form>
