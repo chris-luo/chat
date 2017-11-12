@@ -23,6 +23,7 @@ export class ChatComponent implements OnInit {
   onSendMessage(f: NgForm) {
     this.messages.push(f.value.message);
     this.chatService.sendMessage(f.value.message);
+    f.reset();
   }
 
 }
