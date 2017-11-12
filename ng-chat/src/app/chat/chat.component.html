@@ -1,8 +1,10 @@
-<ul class="list-unstyled">
-  <li *ngFor="let message of messages">
-    {{ message }}
-  </li>
-</ul>
+<mat-card>
+  <ul class="list-unstyled">
+    <li *ngFor="let message of messages">
+      {{ message }}
+    </li>
+  </ul>
+</mat-card>
 
 <form #f="ngForm" (ngSubmit)="onSendMessage(f)">
   <div class="form-group">
