@@ -1,9 +1,13 @@
 import * as express from "express";
+import { Request, Response } from "express";
 import * as config from "config";
 import * as http from "http";
 import * as logger from "morgan";
 import * as cors from "cors";
 import * as bodyParser from "body-parser";
+import * as path from "path";
+
+import { ChatSocket } from "./controllers/ChatSocket";
 
 export class App {
     public express: any;
@@ -29,13 +33,17 @@ export class App {
         this.express.use(bodyParser.json());
     }
 
-    private mountRoutes() {
-
+    private mountRoutes(): void {
+        this.express.get('*', (req: Request, res: Response) => {
+            res.sendFile(path.join(__dirname, '../views/index.html'));
+        });
     }
 
     private listen(): void {
         this.server.listen(this.port, () => {
             console.log('Running server on port %s', this.port);
         });
+
+        new ChatSocket(this.server);
     }
 }
