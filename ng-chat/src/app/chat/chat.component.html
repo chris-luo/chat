@@ -4,7 +4,7 @@
       <mat-card-content>
         <ul class="list-unstyled">
           <li *ngFor="let message of messages">
-            {{ message.user.name }}: {{ message.message }}
+            <p>{{ message.user.name }}: {{ message.message }}</p>
           </li>
         </ul>
       </mat-card-content>
@@ -16,7 +16,7 @@
   <div class="col">
     <div>
       <form #f="ngForm" (ngSubmit)="onSendMessage(f)">
-        <div class="input-group chat-input">
+        <div class="input-group">
           <input type="text" autocomplete="off" ngModel name="message" class="form-control" />
 
           <span class="input-group-btn">
