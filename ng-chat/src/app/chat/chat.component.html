@@ -1,17 +1,29 @@
-<mat-card>
-  <ul class="list-unstyled">
-    <li *ngFor="let message of messages">
-      {{ message }}
-    </li>
-  </ul>
-</mat-card>
-
-<form #f="ngForm" (ngSubmit)="onSendMessage(f)">
-  <div class="input-group">
-    <input type="text" autocomplete="off" ngModel name="message" class="form-control" />
-
-    <span class="input-group-btn">
-      <button class="btn btn-primary" type="submit">Send</button>
-    </span>
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <mat-card-content>
+        <ul class="list-unstyled">
+          <li *ngFor="let message of messages">
+            {{ message }}
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
   </div>
-</form>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>
+      <form #f="ngForm" (ngSubmit)="onSendMessage(f)">
+        <div class="input-group chat-input">
+          <input type="text" autocomplete="off" ngModel name="message" class="form-control" />
+
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">Send</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
