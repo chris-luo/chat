@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
-import { MaterialModule } from './shared/material.module';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
@@ -15,9 +13,7 @@ import { MaterialModule } from './shared/material.module';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MaterialModule
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
