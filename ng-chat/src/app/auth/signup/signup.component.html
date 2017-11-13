@@ -1,3 +1,17 @@
-<p>
-  signup works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" formControlName="email" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password" />
+        </div>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!signupForm.valid">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
