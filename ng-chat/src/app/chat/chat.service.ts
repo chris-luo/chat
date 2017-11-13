@@ -5,7 +5,11 @@ import { OnInit } from "@angular/core";
 export class ChatService {
     private url = 'http://localhost:3000';
     private socket;
-    public newMessage: Subject<string> = new Subject<string>();
+
+    private user = {
+        name: "Chris"
+    }
+    public newMessage: Subject<any> = new Subject<any>();
 
     constructor() {
         this.connect();
@@ -19,6 +23,7 @@ export class ChatService {
     }
 
     sendMessage(message: string) {
-        this.socket.emit('post', message);
+        this.newMessage.next({user: this.user, message: message})      
+        this.socket.emit('post', {user: this.user, message: message});
     }
 }

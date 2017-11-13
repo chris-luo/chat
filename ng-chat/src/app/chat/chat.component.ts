@@ -16,12 +16,12 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.chatService.newMessage.subscribe(data => {
+      console.log(data);
       this.messages.push(data);
     });
   }
 
   onSendMessage(f: NgForm) {
-    this.messages.push(f.value.message);
     this.chatService.sendMessage(f.value.message);
     f.reset();
   }
