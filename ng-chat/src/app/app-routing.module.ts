@@ -6,6 +6,10 @@ const appRoutes: Routes = [
     {
         path: '',
         component: HomeComponent
+    },
+    {
+        path: 'chat',
+        loadChildren: 'app/chat/chat.module#ChatModule'
     }
 ]
 
