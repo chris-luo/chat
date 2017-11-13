@@ -18,10 +18,10 @@ import { HomeComponent } from './home/home.component';
         MaterialModule
     ],
     exports: [
+        FormsModule,        
         NavbarComponent,
-        FormsModule,
+        AppRoutingModule,
         MaterialModule
-        // AppRoutingModule
     ]
 })
 
