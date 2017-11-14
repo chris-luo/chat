@@ -8,6 +8,7 @@ import * as bodyParser from "body-parser";
 import * as path from "path";
 
 import { ChatSocket } from "./controllers/ChatSocket";
+import UserRouter from "./routes/UserRouter";
 
 export class App {
     public express: any;
@@ -34,6 +35,7 @@ export class App {
     }
 
     private mountRoutes(): void {
+        this.express.use('/users', UserRouter);
         this.express.get('*', (req: Request, res: Response) => {
             res.sendFile(path.join(__dirname, '../views/index.html'));
         });
