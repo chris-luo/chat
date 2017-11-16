@@ -11,7 +11,7 @@ export class UserRouter {
         this.init();
     }
 
-    private signup(req: Request, res: Response, next: NextFunction) {
+    private async signup(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
@@ -20,22 +20,19 @@ export class UserRouter {
         let queryConfig: QueryConfig = {
             text: `INSERT INTO chat_user(username, email, password) VALUES($1, $2, $3) RETURNING *`,
             values: [user.username, user.email, user.password]
-        }
-        db.query(queryConfig, (error, results) => {
-            if (error) {
-                console.log(error);
+        };
 
-                return res.status(400).json({
-                    statusText: error
-                });
-            }
-            else {
-                console.log(results);
-                res.json({
-                    statusText: `You may now log in.`
-                });
-            }
-        });
+        try {
+            const rows = await db.query(queryConfig);
+            res.json({
+                statusText: "Account created"
+            });
+        }
+        catch (error) {
+            res.status(400).json({
+                statusText: "Account not created."
+            });
+        }
     }
 
     private signupValidation() {

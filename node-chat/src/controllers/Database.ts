@@ -17,11 +17,17 @@ export class Database {
         });
     }
 
-    query(queryConfig: QueryConfig, callback: (error: any, results: QueryResult | null) => void) {
-        (async () => {
-            const res: QueryResult = await this.pool.query(queryConfig);
-            callback(null, res);
-        })().catch(error => callback(error, null));
+    async query(queryConfig: QueryConfig): Promise<any[]> {
+        console.log(queryConfig);
+        try {
+            const { rows }: QueryResult = await this.pool.query(queryConfig);
+            console.log(rows);
+            return rows;
+        }
+        catch (error) {
+             console.log(error.code);
+             throw error;
+        }
     }
 
     get(queryConfig: QueryConfig) {
