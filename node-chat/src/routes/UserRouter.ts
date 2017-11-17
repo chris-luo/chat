@@ -25,12 +25,12 @@ export class UserRouter {
         try {
             const rows = await db.query(queryConfig);
             res.json({
-                statusText: "Account created"
+                message: "Account created"
             });
         }
         catch (error) {
-            res.status(400).json({
-                statusText: "Account not created."
+            res.status(500).json({
+                message: error.code
             });
         }
     }
@@ -43,9 +43,51 @@ export class UserRouter {
         ]
     }
 
-    private signin(req: Request, res: Response, next: NextFunction) {
+    private async signin(req: Request, res: Response, next: NextFunction) {
         console.log(req.body);
-        res.json(req.body);
+        const queryConfig: QueryConfig = {
+            text: `SELECT * FROM chat_user WHERE email=$1`,
+            values: [req.body.email]
+        };
+        try {
+            const rows = await db.query(queryConfig);
+            if (rows.length === 0) {
+                //No user exists
+                return res.status(401).send({
+                    message: "Wrong email or password."
+                });
+            }
+            if (rows[0].password !== req.body.password) {
+                return res.status(401).send({
+                    message: "Wrong email or password."
+                });
+            }
+            res.json(rows[0]);
+        }
+        catch (error) {
+            res.status(500).json({
+                message: error.code
+            });
+        }
+        // (async () => {
+        //     const rows = await db.query(queryConfig);
+        //     if (rows.length === 0) {
+        //         //No user exists
+        //         return res.status(401).send({
+        //             message: "Wrong email or password."
+        //         });
+        //     }
+        //     if (rows[0].password !== req.body.password) {
+        //         return res.status(401).send({
+        //             message: "Wrong email or password."
+        //         });
+        //     }
+        //     res.json(rows[0]);
+        // })().catch(error => {
+        //     res.status(500).json({
+        //         message: error.code
+        //     });
+        // });
     }
 
     private signinSanitization() {
