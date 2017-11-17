@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.chatService.disconnect();
   }
 
   onSendMessage(f: NgForm) {

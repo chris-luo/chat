@@ -22,6 +22,10 @@ export class ChatService {
         });
     }
 
+    disconnect() {
+        this.socket.disconnect();
+    }
+
     sendMessage(message: string) {
         this.newMessage.next({user: this.user, message: message})      
         this.socket.emit('post', {user: this.user, message: message});
