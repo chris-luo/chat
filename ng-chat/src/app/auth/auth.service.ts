@@ -11,7 +11,7 @@ export class AuthService {
         return this.http.post(`${this.ep}/signup`, user);
     }
 
-    signin(user: {email: string, password: string}) {
+    signIn(user: {email: string, password: string}) {
         return this.http.post(`${this.ep}/signin`, user);
     }
 }
