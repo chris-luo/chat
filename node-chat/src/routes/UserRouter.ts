@@ -3,6 +3,7 @@ import { check, validationResult } from "express-validator/check";
 import { matchedData, sanitizeBody } from "express-validator/filter";
 import db from "../controllers/Database";
 import { QueryConfig } from "pg";
+import * as bcrypt from "bcrypt";
 
 export class UserRouter {
     router: Router;
@@ -17,19 +18,27 @@ export class UserRouter {
             return res.status(422).json({ errors: errors.mapped() });
         }
         const user = matchedData(req);
-        let queryConfig: QueryConfig = {
-            text: `INSERT INTO chat_user(username, email, password) VALUES($1, $2, $3) RETURNING *`,
-            values: [user.username, user.email, user.password]
-        };
 
         try {
+            //Generate hash with brcypt
+            const date = Date.now();
+            const hash = await bcrypt.hash(user.password, 12);
+            console.log('Hash Time', Date.now() - date);
+            console.log(hash);
+
+            //Insert user into database
+            let queryConfig: QueryConfig = {
+                text: `INSERT INTO chat_user(username, email, password) VALUES($1, $2, $3) RETURNING *`,
+                values: [user.username, user.email, hash]
+            };
+
             const rows = await db.query(queryConfig);
             res.json({
                 message: "Account created"
             });
-        }
-        catch (error) {
-            res.status(500).json({
+        } catch (error) {
+            // console.log(error);
+            return res.status(500).json({
                 message: error.code
             });
         }
@@ -57,14 +66,21 @@ export class UserRouter {
                     message: "Wrong email or password."
                 });
             }
-            if (rows[0].password !== req.body.password) {
+            const date = Date.now();
+            const match = await bcrypt.compare(req.body.password, rows[0].password);
+            console.log('Hash Time', Date.now() - date);
+            console.log(match);
+            if (!match) {
                 return res.status(401).send({
                     message: "Wrong email or password."
                 });
             }
-            res.json(rows[0]);
+            res.json({
+                message: "Success!"
+            });
         }
-        catch (error) {
+        catch (error) {error.code
+            console.log(error);
             res.status(500).json({
                 message: error.code
             });
