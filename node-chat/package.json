@@ -12,6 +12,7 @@
   "author": "Chris Luo",
   "license": "MIT",
   "devDependencies": {
+    "@types/bcrypt": "^1.0.0",
     "@types/config": "0.0.33",
     "@types/cors": "^2.8.3",
     "@types/express": "^4.0.39",
