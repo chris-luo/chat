@@ -23,6 +23,7 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "config": "^1.28.1",
     "cors": "^2.8.4",
     "express": "^4.16.2",
