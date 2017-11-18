@@ -9,7 +9,7 @@ export class AuthService {
     private token: string;
     private user: { id: number, email: string, username: string};
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router) {console.log(this.token); console.log(this.user)}
 
     signup(user: {username: string, email: string, password: string}) {
         return this.http.post(`${this.ep}/signup`, user);
@@ -46,6 +46,7 @@ export class AuthService {
 
     logout() {
         this.token = null;
+        this.user = null;
         localStorage.clear();
         this.router.navigate(['']);
     }
