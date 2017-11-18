@@ -38,8 +38,9 @@ export class SignupComponent implements OnInit {
       password: this.signupForm.value.password
     }
     this.authService.signup(user)
-      .subscribe(data => {
-        console.log(data);
+      .subscribe(res => {
+        console.log(res);
+        this.authService.setToken(res['data']);
         this.router.navigate(['/chat']);
       },
       error => {
