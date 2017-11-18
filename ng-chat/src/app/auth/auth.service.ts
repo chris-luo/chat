@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +24,7 @@ export class AuthService {
     }
 
     setToken(token: string) {
-        const jwtHelper: JwtHelperService = new JwtHelperService({});
+        const jwtHelper: JwtHelper = new JwtHelper();
         const decoded = jwtHelper.decodeToken(token);
         const user = {
             id: decoded.id,
