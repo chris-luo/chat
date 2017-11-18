@@ -22,7 +22,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.newMessage
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
-      console.log(data);
       this.messages.push(data);
     });
   }

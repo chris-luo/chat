@@ -31,7 +31,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSignUp() {
-    console.log(this.signupForm);
     let user = {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
@@ -39,12 +38,11 @@ export class SignupComponent implements OnInit {
     }
     this.authService.signup(user)
       .subscribe(res => {
-        console.log(res);
         this.authService.setToken(res['data']);
         this.router.navigate(['/chat']);
       },
       error => {
-        console.log(error)
+        console.error(error.error)
       });
   }
 

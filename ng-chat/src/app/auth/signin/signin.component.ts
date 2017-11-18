@@ -31,12 +31,11 @@ export class SigninComponent implements OnInit {
   onSignIn() {
     this.authService.signIn({email: this.signInForm.value.email, password: this.signInForm.value.password})
       .subscribe(res => {
-        console.log(res);
         this.authService.setToken(res['data']);
         this.router.navigate(['/chat']);
       },
       error => {
-        console.log(error);
+        console.error(error.error);
       });
   }
 

@@ -53,9 +53,6 @@ export class AuthService {
     }
 
     loggedIn() {
-        // const jwtHelper: JwtHelperService = new JwtHelperService({});
-        // console.log(jwtHelper.isTokenExpired(this.token));
-        // return jwtHelper.isTokenExpired(this.token);
         return tokenNotExpired();
     }
     

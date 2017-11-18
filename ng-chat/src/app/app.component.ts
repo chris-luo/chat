@@ -10,6 +10,7 @@ export class AppComponent implements OnInit{
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    //On app load check local storage and get/set token and user.
     this.authService.initializeFromLocalStorage();
   }
 }
