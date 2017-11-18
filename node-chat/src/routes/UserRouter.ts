@@ -4,6 +4,8 @@ import { matchedData, sanitizeBody } from "express-validator/filter";
 import db from "../controllers/Database";
 import { QueryConfig } from "pg";
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import * as config from "config";
 
 export class UserRouter {
     router: Router;
@@ -33,8 +35,17 @@ export class UserRouter {
             };
 
             const rows = await db.query(queryConfig);
+            const token = jwt.sign(
+            {
+                id: rows[0].id,
+                username: rows[0].username,
+                email: rows[0].email
+            }, 
+            config.get('SECRET'), 
+            { expiresIn: config.get('TOKEN_EXPIRATION_TIME')});
             res.json({
-                message: "Account created"
+                message: "Account created",
+                data: token
             });
         } catch (error) {
             // console.log(error);
@@ -75,11 +86,19 @@ export class UserRouter {
                     message: "Wrong email or password."
                 });
             }
+            //User authenticated create jwt and send
+            const user = {
+                id: rows[0].id,
+                username: rows[0].username,
+                email: rows[0].email
+            }
+            const token = jwt.sign(user, config.get('SECRET'), { expiresIn: config.get('TOKEN_EXPIRATION_TIME')});
             res.json({
-                message: "Success!"
+                message: "Success!",
+                data: token
             });
         }
-        catch (error) {error.code
+        catch (error) {
             console.log(error);
             res.status(500).json({
                 message: error.code
