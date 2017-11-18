@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
     private ep: string = "http://localhost:3000/users";
     private token: string;
+    private user: { id: number, email: string, username: string};
 
     constructor(private http: HttpClient) {}
 
@@ -22,7 +23,6 @@ export class AuthService {
     }
 
     setToken(token: string) {
-        this.token = token;
         const jwtHelper: JwtHelperService = new JwtHelperService({});
         const decoded = jwtHelper.decodeToken(token);
         const user = {
@@ -30,6 +30,8 @@ export class AuthService {
             email: decoded.email,
             username: decoded.username
         }
+        this.token = token;
+        this.user = user;
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('token', token);
     }
