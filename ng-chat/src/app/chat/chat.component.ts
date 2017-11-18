@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ChatService } from './chat.service';
 import { Subject } from 'rxjs/Subject';
@@ -9,7 +9,8 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
   providers: [ChatService],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, OnDestroy {
   messages = [];
