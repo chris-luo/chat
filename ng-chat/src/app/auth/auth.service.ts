@@ -9,7 +9,7 @@ export class AuthService {
     private token: string;
     private user: { id: number, email: string, username: string};
 
-    constructor(private http: HttpClient, private router: Router) {console.log(this.token); console.log(this.user)}
+    constructor(private http: HttpClient, private router: Router) {}
 
     signup(user: {username: string, email: string, password: string}) {
         return this.http.post(`${this.ep}/signup`, user);
@@ -27,7 +27,7 @@ export class AuthService {
         const jwtHelper: JwtHelper = new JwtHelper();
         const decoded = jwtHelper.decodeToken(token);
         const user = {
-            id: decoded.id,
+            id: +decoded.id,
             email: decoded.email,
             username: decoded.username
         }
@@ -37,17 +37,32 @@ export class AuthService {
         localStorage.setItem('token', token);
     }
 
+    initializeFromLocalStorage() {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (token === null || user === null) {
+            this.nullAndClear();
+            return;
+        }
+        this.token = token;
+        this.user = user;
+    }
+
     loggedIn() {
         // const jwtHelper: JwtHelperService = new JwtHelperService({});
         // console.log(jwtHelper.isTokenExpired(this.token));
         // return jwtHelper.isTokenExpired(this.token);
         return tokenNotExpired();
     }
-
-    logout() {
+    
+    nullAndClear() {
         this.token = null;
         this.user = null;
         localStorage.clear();
-        this.router.navigate(['']);
+    }
+
+    logout() {
+        this.nullAndClear();
+        this.router.navigate(['/signin']);
     }
 }
