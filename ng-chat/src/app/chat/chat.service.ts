@@ -1,18 +1,20 @@
+import { OnInit, Injectable } from "@angular/core";
 import { Subject } from "rxjs/Subject";
 import * as io from 'socket.io-client';
-import { OnInit } from "@angular/core";
+import { AuthService } from "../auth/auth.service";
 
+@Injectable()
 export class ChatService {
     private url = 'http://localhost:3000';
     private socket;
 
-    private user = {
-        name: "Chris"
-    }
+    private user: {id: number, username: string, email: string};
+
     public newMessage: Subject<any> = new Subject<any>();
 
-    constructor() {
+    constructor(private authService: AuthService) {
         this.connect();
+        this.user = this.authService.getUser();
     }
 
     private connect() {

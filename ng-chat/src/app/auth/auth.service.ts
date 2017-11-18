@@ -23,6 +23,10 @@ export class AuthService {
         return this.token;
     }
 
+    getUser() {
+        return this.user;
+    }
+
     setToken(token: string) {
         const jwtHelper: JwtHelper = new JwtHelper();
         const decoded = jwtHelper.decodeToken(token);
