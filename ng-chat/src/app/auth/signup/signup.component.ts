@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +14,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,7 +39,8 @@ export class SignupComponent implements OnInit {
     }
     this.authService.signup(user)
       .subscribe(data => {
-        console.log(data)
+        console.log(data);
+        this.router.navigate(['/chat']);
       },
       error => {
         console.log(error)
