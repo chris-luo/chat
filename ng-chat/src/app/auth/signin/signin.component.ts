@@ -33,7 +33,7 @@ export class SigninComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.router.navigate(['/chat']);
-      },this.router.navigate(['/chat']);
+      },
       error => {
         console.log(error);
       });
