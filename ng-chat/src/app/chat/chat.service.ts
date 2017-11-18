@@ -19,8 +19,8 @@ export class ChatService {
 
     private connect() {
         this.socket = io(this.url);
-        this.socket.on('message', (data: string) => {
-            this.newMessage.next(data)
+        this.socket.on('message', (data: {message: string, user: {id: number, email: string, username: string}}) => {
+            this.newMessage.next(data);
         });
     }
 

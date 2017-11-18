@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ChatService } from './chat.service';
 import { Subject } from 'rxjs/Subject';
@@ -16,13 +16,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   messages = [];
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private chatService: ChatService) { }
+  constructor(private chatService: ChatService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.chatService.newMessage
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(data => {
-      this.messages.push(data);
+      this.messages = [...this.messages, ...data];
+      this.cd.markForCheck();
     });
   }
 
