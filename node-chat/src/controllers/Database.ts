@@ -25,21 +25,9 @@ export class Database {
             return rows;
         }
         catch (error) {
-             console.log(error.code);
+             console.log(error);
              throw error;
         }
-    }
-
-    get(queryConfig: QueryConfig) {
-        (async () => {
-            const client: Client = await this.pool.connect();
-            try {
-                const res: QueryResult = await client.query(queryConfig);
-                console.log(res.rows);
-            } finally {
-                client.release();
-            }
-        })().catch(e => console.log(e));
     }
 }
 

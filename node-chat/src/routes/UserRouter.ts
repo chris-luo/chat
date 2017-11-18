@@ -26,7 +26,6 @@ export class UserRouter {
             const date = Date.now();
             const hash = await bcrypt.hash(user.password, 12);
             console.log('Hash Time', Date.now() - date);
-            console.log(hash);
 
             //Insert user into database
             let queryConfig: QueryConfig = {
@@ -48,7 +47,6 @@ export class UserRouter {
                 data: token
             });
         } catch (error) {
-            // console.log(error);
             return res.status(500).json({
                 message: error.code
             });
@@ -64,7 +62,6 @@ export class UserRouter {
     }
 
     private async signin(req: Request, res: Response, next: NextFunction) {
-        console.log(req.body);
         const queryConfig: QueryConfig = {
             text: `SELECT * FROM chat_user WHERE email=$1`,
             values: [req.body.email]
@@ -80,7 +77,7 @@ export class UserRouter {
             const date = Date.now();
             const match = await bcrypt.compare(req.body.password, rows[0].password);
             console.log('Hash Time', Date.now() - date);
-            console.log(match);
+
             if (!match) {
                 return res.status(401).send({
                     message: "Wrong email or password."
@@ -99,34 +96,14 @@ export class UserRouter {
             });
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({
                 message: error.code
             });
         }
-        // (async () => {
-        //     const rows = await db.query(queryConfig);
-        //     if (rows.length === 0) {
-        //         //No user exists
-        //         return res.status(401).send({
-        //             message: "Wrong email or password."
-        //         });
-        //     }
-        //     if (rows[0].password !== req.body.password) {
-        //         return res.status(401).send({
-        //             message: "Wrong email or password."
-        //         });
-        //     }
-        //     res.json(rows[0]);
-        // })().catch(error => {
-        //     res.status(500).json({
-        //         message: error.code
-        //     });
-        // });
     }
 
     private signinSanitization() {
-        return sanitizeBody('email').trim().normalizeEmail()
+        return sanitizeBody('email').trim().normalizeEmail();
     }
 
     private init() {
