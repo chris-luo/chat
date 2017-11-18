@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
@@ -37,9 +38,11 @@ export class AuthService {
         localStorage.setItem('token', token);
     }
 
-    tokenNotExpired() {
-        const jwtHelper: JwtHelperService = new JwtHelperService({});
-        console.log(jwtHelper.isTokenExpired(this.token));
+    loggedIn() {
+        // const jwtHelper: JwtHelperService = new JwtHelperService({});
+        // console.log(jwtHelper.isTokenExpired(this.token));
+        // return jwtHelper.isTokenExpired(this.token);
+        return tokenNotExpired();
     }
 
     logout() {
