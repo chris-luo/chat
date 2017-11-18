@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -8,7 +9,7 @@ export class AuthService {
     private token: string;
     private user: { id: number, email: string, username: string};
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
 
     signup(user: {username: string, email: string, password: string}) {
         return this.http.post(`${this.ep}/signup`, user);
@@ -44,5 +45,6 @@ export class AuthService {
     logout() {
         this.token = null;
         localStorage.clear();
+        this.router.navigate(['']);
     }
 }
