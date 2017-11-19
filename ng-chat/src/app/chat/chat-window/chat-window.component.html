@@ -1,0 +1,9 @@
+<mat-card>
+  <mat-card-content #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <ul class="list-unstyled">
+      <li *ngFor="let message of messages">
+        <app-chat-message [message]="message"></app-chat-message>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>
