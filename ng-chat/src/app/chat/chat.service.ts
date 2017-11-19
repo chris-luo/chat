@@ -20,8 +20,16 @@ export class ChatService {
     private connect() {
         this.socket = io(this.url);
         this.socket.on('message', (data: {message: string, user: {id: number, email: string, username: string}}) => {
-            this.newMessage.next(data);
+            this.newMessageEmitter(data);
         });
+    }
+
+    private newMessageEmitter(data: {message: string, user: {id: number, email: string, username: string}}) {
+        data['style'] = 'right';
+        if (this.user.username !== data.user.username) {
+            data['style'] = 'left';
+        };
+        this.newMessage.next(data);
     }
 
     disconnect() {
@@ -29,7 +37,7 @@ export class ChatService {
     }
 
     sendMessage(message: string) {
-        this.newMessage.next({user: this.user, message: message})      
+        this.newMessageEmitter({user: this.user, message: message});
         this.socket.emit('post', {user: this.user, message: message});
     }
 }

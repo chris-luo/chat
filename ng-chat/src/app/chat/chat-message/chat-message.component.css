@@ -1,0 +1,7 @@
+.chat-message {
+    width: 45%;
+    clear: both;
+    word-wrap: break-word;
+    background-color: #D3FFCE;
+    margin-bottom: 10px;
+}
