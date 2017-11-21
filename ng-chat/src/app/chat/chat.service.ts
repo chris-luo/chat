@@ -21,11 +21,11 @@ export class ChatService {
     private connect() {
         this.socket = io(this.url);
         this.socket.on('message', (data: Message) => {
-            this.newMessageEmitter(data);
+            this.messageDispatcher(data);
         });
     }
 
-    private newMessageEmitter(data: Message) {
+    private messageDispatcher(data: Message) {
         this.store.dispatch(new ChatActions.AddMessage(data));
     }
 
@@ -34,7 +34,7 @@ export class ChatService {
     }
 
     sendMessage(message: string) {
-        this.newMessageEmitter(new Message(this.user, {text: message, float: 'right'}));
+        this.messageDispatcher(new Message(this.user, {text: message, float: 'right'}));
         this.socket.emit('post', new Message(this.user, {text: message, float: 'left'}));
     }
 }
