@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col">
-    <app-chat-window [messages]="messages"></app-chat-window>
+    <app-chat-window [messages]="(chatState$ | async).messages"></app-chat-window>
   </div>
 </div>
 
 <div class="row">
   <div class="col">
-    <app-chat-input></app-chat-input>
+    <app-chat-input (message)="onMessage($event)"></app-chat-input>
   </div>
 </div>
