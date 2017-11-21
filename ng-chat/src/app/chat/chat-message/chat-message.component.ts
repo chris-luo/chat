@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Message } from '../message.model';
 
 @Component({
   selector: 'app-chat-message',
@@ -8,7 +9,7 @@ import { Component, OnInit, ViewEncapsulation, Input, ChangeDetectionStrategy } 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatMessageComponent implements OnInit {
-  @Input() message;
+  @Input() message: Message;
 
   constructor() { }
 
