@@ -1,6 +1,15 @@
 import * as ChatActions from './chat.actions';
+import { Message } from '../message.model';
 
-const initialState = {
+export interface FeatureState {
+    chat: State
+}
+
+export interface State {
+    messages: Message[];
+}
+
+const initialState: State = {
     messages: []
 }
 
