@@ -1,7 +1,10 @@
 import { OnInit, Injectable } from "@angular/core";
-import { Subject } from "rxjs/Subject";
 import * as io from 'socket.io-client';
 import { AuthService } from "../auth/auth.service";
+import * as ChatActions from './store/chat.actions';
+import { Store } from "@ngrx/store/src/store";
+import { Message } from "./message.model";
+import * as fromChat from './store/chat.reducers';
 
 @Injectable()
 export class ChatService {
@@ -10,26 +13,20 @@ export class ChatService {
 
     private user: {id: number, username: string, email: string};
 
-    public newMessage: Subject<any> = new Subject<any>();
-
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private store: Store<fromChat.FeatureState>) {
         this.connect();
         this.user = this.authService.getUser();
     }
 
     private connect() {
         this.socket = io(this.url);
-        this.socket.on('message', (data: {message: string, user: {id: number, email: string, username: string}}) => {
+        this.socket.on('message', (data: Message) => {
             this.newMessageEmitter(data);
         });
     }
 
-    private newMessageEmitter(data: {message: string, user: {id: number, email: string, username: string}}) {
-        data['style'] = 'right';
-        if (this.user.username !== data.user.username) {
-            data['style'] = 'left';
-        };
-        this.newMessage.next(data);
+    private newMessageEmitter(data: Message) {
+        this.store.dispatch(new ChatActions.AddMessage(data));
     }
 
     disconnect() {
@@ -37,7 +34,7 @@ export class ChatService {
     }
 
     sendMessage(message: string) {
-        this.newMessageEmitter({user: this.user, message: message});
-        this.socket.emit('post', {user: this.user, message: message});
+        this.newMessageEmitter(new Message(this.user, {text: message, float: 'right'}));
+        this.socket.emit('post', new Message(this.user, {text: message, float: 'left'}));
     }
 }

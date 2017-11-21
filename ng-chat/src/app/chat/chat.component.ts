@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { NgForm } from "@angular/forms";
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ChatService } from './chat.service';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store/src/store';
+import { Observable } from 'rxjs/Observable';
+import * as fromChat from './store/chat.reducers';
 
 @Component({
   selector: 'app-chat',
@@ -13,23 +13,19 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  messages = [];
-  private ngUnsubscribe: Subject<any> = new Subject();
+  chatState$: Observable<fromChat.State>
 
-  constructor(private chatService: ChatService, private cd: ChangeDetectorRef) { }
+  constructor(private chatService: ChatService, private store: Store<fromChat.FeatureState>) { }
 
   ngOnInit() {
-    this.chatService.newMessage
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(data => {
-      this.messages = [...this.messages, ...data];
-      this.cd.markForCheck();
-    });
+    this.chatState$ = this.store.select('chat');
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
     this.chatService.disconnect();
+  }
+
+  onMessage(message: string) {
+    this.chatService.sendMessage(message);
   }
 }
