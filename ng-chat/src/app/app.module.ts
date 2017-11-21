@@ -15,7 +15,7 @@ import { chatReducer } from './chat/store/chat.reducers';
     BrowserModule,
     CoreModule,
     AuthModule,
-    StoreModule.forRoot({chat: chatReducer})
+    StoreModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]
