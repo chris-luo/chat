@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Effect, Actions} from '@ngrx/effects';
+
 import * as AuthActions from './auth.actions';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
@@ -17,6 +19,7 @@ export class AuthEffects {
                 return this.authService.signup(user)
             }),
             mergeMap((res) => {
+                this.router.navigate(['/chat']);
                 return [
                     {
                         type: AuthActions.SIGNUP
@@ -40,6 +43,7 @@ export class AuthEffects {
                 return this.authService.signIn(user)
             }),
             mergeMap((res) => {
+                this.router.navigate(['/chat']);
                 return [
                     {
                         type: AuthActions.SIGNIN
@@ -52,5 +56,5 @@ export class AuthEffects {
             })
         );
 
-    constructor(private actions$: Actions, private authService: AuthService) {}
+    constructor(private actions$: Actions, private authService: AuthService, private router: Router) {}
 }
