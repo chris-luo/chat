@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 
+import { reducers } from './store/app.reducers';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     CoreModule,
     AuthModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot(reducers)
   ],
   providers: [],
   bootstrap: [AppComponent]
