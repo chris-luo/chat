@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ChatService } from './chat.service';
-import { Store } from '@ngrx/store/src/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromChat from './store/chat.reducers';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
-import { Store } from '@ngrx/store/src/store';
+import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducers';
 import * as AuthActions from './store/auth.actions';
 

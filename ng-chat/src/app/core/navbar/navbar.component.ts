@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { Store } from '@ngrx/store/src/store';
+import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import { Observable } from 'rxjs/Observable';
 import * as fromAuth from '../../auth/store/auth.reducers';

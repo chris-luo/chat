@@ -2,7 +2,7 @@ import { OnInit, Injectable } from "@angular/core";
 import * as io from 'socket.io-client';
 import { AuthService } from "../auth/auth.service";
 import * as ChatActions from './store/chat.actions';
-import { Store } from "@ngrx/store/src/store";
+import { Store } from "@ngrx/store";
 import { Message } from "./message.model";
 import * as fromChat from './store/chat.reducers';
 

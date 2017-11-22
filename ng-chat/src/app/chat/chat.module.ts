@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { StoreModule } from '@ngrx/store/src/store_module';
+import { StoreModule } from '@ngrx/store';
 import { chatReducer } from "./store/chat.reducers";
 
 import { ChatRoutingModule } from "./chat-routing.module";
