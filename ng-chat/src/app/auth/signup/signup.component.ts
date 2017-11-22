@@ -39,16 +39,18 @@ export class SignupComponent implements OnInit {
       email: this.signupForm.value.email,
       password: this.signupForm.value.password
     }
-    this.authService.signup(user)
-      .subscribe(res => {
-        this.store.dispatch(new AuthActions.Signup());
-        this.store.dispatch(new AuthActions.SetToken(res['data']));
-        // this.authService.setToken(res['data']);
-        this.router.navigate(['/chat']);
-      },
-      error => {
-        console.error(error.error)
-      });
+    this.store.dispatch(new AuthActions.TrySignup(user));
+    // this.authService.signup(user)
+    //   .subscribe(res => {
+        
+    //     this.store.dispatch(new AuthActions.Signup());
+    //     this.store.dispatch(new AuthActions.SetToken(res['data']));
+    //     // this.authService.setToken(res['data']);
+    //     this.router.navigate(['/chat']);
+    //   },
+    //   error => {
+    //     console.error(error.error)
+    //   });
   }
 
 }
