@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
+import { Store } from '@ngrx/store/src/store';
+import * as fromApp from '../store/app.reducers';
+import * as AuthActions from './store/auth.actions';
 
 @Injectable()
 export class AuthService {
@@ -9,7 +12,7 @@ export class AuthService {
     private token: string;
     private user: { id: number, email: string, username: string};
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) {}
 
     signup(user: {username: string, email: string, password: string}) {
         return this.http.post(`${this.ep}/signup`, user);
@@ -63,7 +66,8 @@ export class AuthService {
     }
 
     logout() {
-        this.nullAndClear();
+        // this.nullAndClear();
+        this.store.dispatch(new AuthActions.Logout());
         this.router.navigate(['/signin']);
     }
 }

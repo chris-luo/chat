@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import * as fromApp from '../../store/app.reducers';
+import * as AuthActions from '../store/auth.actions';
+import { Store } from '@ngrx/store/src/store';
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +17,8 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit() {
@@ -31,7 +35,9 @@ export class SigninComponent implements OnInit {
   onSignIn() {
     this.authService.signIn({email: this.signInForm.value.email, password: this.signInForm.value.password})
       .subscribe(res => {
-        this.authService.setToken(res['data']);
+        this.store.dispatch(new AuthActions.Signup());
+        this.store.dispatch(new AuthActions.SetToken(res['data']));
+        // this.authService.setToken(res['data']);
         this.router.navigate(['/chat']);
       },
       error => {
