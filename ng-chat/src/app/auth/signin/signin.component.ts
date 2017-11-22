@@ -33,16 +33,17 @@ export class SigninComponent implements OnInit {
   }
 
   onSignIn() {
-    this.authService.signIn({email: this.signInForm.value.email, password: this.signInForm.value.password})
-      .subscribe(res => {
-        this.store.dispatch(new AuthActions.Signup());
-        this.store.dispatch(new AuthActions.SetToken(res['data']));
-        // this.authService.setToken(res['data']);
-        this.router.navigate(['/chat']);
-      },
-      error => {
-        console.error(error.error);
-      });
+    this.store.dispatch(new AuthActions.TrySignin({email: this.signInForm.value.email, password: this.signInForm.value.password}));
+    // this.authService.signIn({email: this.signInForm.value.email, password: this.signInForm.value.password})
+    //   .subscribe(res => {
+    //     this.store.dispatch(new AuthActions.Signup());
+    //     this.store.dispatch(new AuthActions.SetToken(res['data']));
+    //     // this.authService.setToken(res['data']);
+    //     this.router.navigate(['/chat']);
+    //   },
+    //   error => {
+    //     console.error(error.error);
+    //   });
   }
 
 }

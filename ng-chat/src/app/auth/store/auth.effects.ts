@@ -29,5 +29,28 @@ export class AuthEffects {
             })
         );
 
+    @Effect()
+    authSignin = this.actions$
+        .ofType(AuthActions.TRY_SIGNIN)
+        .pipe(
+            map((action: AuthActions.TrySignup) => {
+                return action.payload;
+            }),
+            switchMap((user: {email: string, password: string}) => {
+                return this.authService.signIn(user)
+            }),
+            mergeMap((res) => {
+                return [
+                    {
+                        type: AuthActions.SIGNIN
+                    },
+                    {
+                        type: AuthActions.SET_TOKEN,
+                        payload: res['data']
+                    }
+                ]
+            })
+        );
+
     constructor(private actions$: Actions, private authService: AuthService) {}
 }
