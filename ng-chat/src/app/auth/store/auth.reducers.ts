@@ -3,11 +3,15 @@ import * as AuthActions from './auth.actions';
 export interface State {
     token: string;
     authenticated: boolean;
+    error: boolean,
+    message: string
 }
 
 const initialState: State = {
     token: null,
-    authenticated: false
+    authenticated: false,
+    error: false,
+    message: ''
 }
 
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
@@ -18,6 +22,12 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 ...state,
                 authenticated: true
             };
+        case AuthActions.AUTH_FAILED:
+            return {
+                ...state,
+                error: true,
+                message: action.payload.error.message
+            }
         case AuthActions.LOGOUT:
             return {
                 ...state,
