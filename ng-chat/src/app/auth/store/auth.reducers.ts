@@ -11,7 +11,7 @@ const initialState: State = {
     token: null,
     authenticated: false,
     error: false,
-    message: ''
+    message: null
 }
 
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
@@ -20,7 +20,9 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         case AuthActions.SIGNIN:
             return {
                 ...state,
-                authenticated: true
+                authenticated: true,
+                error: false,
+                message: null
             };
         case AuthActions.AUTH_FAILED:
             return {
