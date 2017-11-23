@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p *ngIf="(authState$ | async).error">{{ (authState$ | async).message }}</p>        
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
