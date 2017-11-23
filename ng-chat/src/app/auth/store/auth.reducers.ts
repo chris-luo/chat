@@ -20,15 +20,19 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         case AuthActions.SIGNIN:
             return {
                 ...state,
-                authenticated: true,
-                error: false,
-                message: null
+                authenticated: true
             };
         case AuthActions.AUTH_FAILED:
             return {
                 ...state,
                 error: true,
                 message: action.payload.error.message
+            }
+        case AuthActions.RESET_ERROR:
+            return {
+                ...state,
+                error: false,
+                message: null
             }
         case AuthActions.LOGOUT:
             return {

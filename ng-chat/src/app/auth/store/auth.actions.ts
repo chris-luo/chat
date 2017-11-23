@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export const TRY_SIGNUP = 'TRY_SIGNUP';
 export const TRY_SIGNIN = 'TRY_SIGNIN';
 export const AUTH_FAILED = 'AUTH_FAILED';
+export const RESET_ERROR = 'RESET_ERROR';
 export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
 export const LOGOUT = 'LOGOUT';
@@ -24,6 +25,10 @@ export class AuthFailed implements Action {
     constructor(public payload: HttpErrorResponse) {}
 }
 
+export class ResetError implements Action {
+    readonly type = RESET_ERROR;
+}
+
 export class Signup implements Action {
     readonly type = SIGNUP;
 }
@@ -41,4 +46,4 @@ export class SetToken implements Action {
     constructor(public payload: string) {}
 }
 
-export type AuthActions = Signup | Signin | Logout | SetToken | TrySignup | TrySignin | AuthFailed;
+export type AuthActions = Signup | Signin | Logout | SetToken | TrySignup | TrySignin | AuthFailed | ResetError;

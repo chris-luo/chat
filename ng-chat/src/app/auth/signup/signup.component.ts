@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -12,7 +12,7 @@ import * as AuthActions from '../store/auth.actions';
   styleUrls: ['./signup.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
 
   constructor(
@@ -23,6 +23,10 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.initalizeForm();
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new AuthActions.ResetError());
   }
 
   initalizeForm() {
