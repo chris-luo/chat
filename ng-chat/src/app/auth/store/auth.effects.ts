@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Effect, Actions} from '@ngrx/effects';
+import { HttpErrorResponse } from '@angular/common/http';
 
-import * as AuthActions from './auth.actions';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { map, mergeMap, switchMap, catchError } from 'rxjs/operators';
+import 'rxjs/add/observable/of';
+
 import { AuthService } from '../auth.service';
-// import 'rxjs/add/operator/map';
+import * as AuthActions from './auth.actions';
+
+// import { of } from 'rxjs/observable/of';
+// import { map } from 'rxjs/operators/map';
+// import { switchMap } from 'rxjs/operators/switchMap';
+// import { mergeMap } from 'rxjs/operators/mergeMap';
+// import { catchError } from 'rxjs/operators/catchError';
+
 @Injectable()
 export class AuthEffects {
     @Effect()
@@ -17,18 +27,23 @@ export class AuthEffects {
             }),
             switchMap((user: {username: string, email: string, password: string}) => {
                 return this.authService.signup(user)
-            }),
-            mergeMap((res) => {
-                this.router.navigate(['/chat']);
-                return [
-                    {
-                        type: AuthActions.SIGNUP
-                    },
-                    {
-                        type: AuthActions.SET_TOKEN,
-                        payload: res['data']
-                    }
-                ]
+                    .pipe(
+                        mergeMap((res) => {
+                            this.router.navigate(['/chat']);
+                            return [
+                                {
+                                    type: AuthActions.SIGNUP
+                                },
+                                {
+                                    type: AuthActions.SET_TOKEN,
+                                    payload: res['data']
+                                }
+                            ]
+                        }),
+                        catchError((error: HttpErrorResponse) => {
+                            return Observable.of({ type: AuthActions.AUTH_FAILED, payload: error });
+                        })
+                    );
             })
         );
 
@@ -41,18 +56,23 @@ export class AuthEffects {
             }),
             switchMap((user: {email: string, password: string}) => {
                 return this.authService.signIn(user)
-            }),
-            mergeMap((res) => {
-                this.router.navigate(['/chat']);
-                return [
-                    {
-                        type: AuthActions.SIGNIN
-                    },
-                    {
-                        type: AuthActions.SET_TOKEN,
-                        payload: res['data']
-                    }
-                ]
+                .pipe(
+                    mergeMap((res) => {
+                        this.router.navigate(['/chat']);
+                        return [
+                            {
+                                type: AuthActions.SIGNIN
+                            },
+                            {
+                                type: AuthActions.SET_TOKEN,
+                                payload: res['data']
+                            }
+                        ]
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                        return Observable.of({ type: AuthActions.AUTH_FAILED, payload: error });
+                    })
+                );
             })
         );
 
