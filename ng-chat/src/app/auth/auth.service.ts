@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
-    private ep: string = `${environment.apiEndPoint}`;
+    private ep: string = `${environment.apiEndPoint}/users`;
     private token: string;
     private user: { id: number, email: string, username: string};
 
