@@ -5,10 +5,11 @@ import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducers';
 import * as AuthActions from './store/auth.actions';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
-    private ep: string = "http://localhost:3000/users";
+    private ep: string = `${environment.apiEndPoint}`;
     private token: string;
     private user: { id: number, email: string, username: string};
 

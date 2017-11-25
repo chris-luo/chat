@@ -5,10 +5,11 @@ import * as ChatActions from './store/chat.actions';
 import { Store } from "@ngrx/store";
 import { Message } from "./message.model";
 import * as fromChat from './store/chat.reducers';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ChatService {
-    private url = 'http://localhost:3000';
+    private url = environment.apiEndPoint;
     private socket;
 
     private user: {id: number, username: string, email: string};
