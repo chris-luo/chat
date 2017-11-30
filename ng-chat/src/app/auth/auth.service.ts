@@ -64,6 +64,7 @@ export class AuthService {
         if (tokenNotExpired()) {
             this.store.dispatch(new AuthActions.Signin());
             this.store.dispatch(new AuthActions.SetToken({token: token, user: user}));
+            this.router.navigate(['chat']);
         } else {
             localStorage.clear();
         }
