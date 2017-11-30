@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
+import { User } from 'app/shared/user.model';
 
 export const TRY_SIGNUP = 'TRY_SIGNUP';
 export const TRY_SIGNIN = 'TRY_SIGNIN';
@@ -43,7 +44,7 @@ export class Logout implements Action {
 
 export class SetToken implements Action {
     readonly type = SET_TOKEN;
-    constructor(public payload: string) {}
+    constructor(public payload: {token: string, user: User}) {}
 }
 
 export type AuthActions = Signup | Signin | Logout | SetToken | TrySignup | TrySignin | AuthFailed | ResetError;

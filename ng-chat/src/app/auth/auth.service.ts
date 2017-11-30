@@ -23,15 +23,33 @@ export class AuthService {
         return this.http.post(`${this.ep}/signin`, user);
     }
     
-    getToken() {
-        return this.token;
-    }
+    // getToken() {
+    //     return this.token;
+    // }
 
     getUser() {
         return this.user;
     }
 
-    setToken(token: string) {
+    // setToken(token: string) {
+    //     const jwtHelper: JwtHelper = new JwtHelper();
+    //     const decoded = jwtHelper.decodeToken(token);
+    //     const user = {
+    //         id: +decoded.id,
+    //         email: decoded.email,
+    //         username: decoded.username
+    //     }
+    //     this.token = token;
+    //     this.user = user;
+    //     localStorage.setItem('user', JSON.stringify(user));
+    //     localStorage.setItem('token', token);
+    // }
+
+    initializeFromLocalStorage() {
+        const token = localStorage.getItem('token');
+        if (token === null) {
+            return;
+        }
         const jwtHelper: JwtHelper = new JwtHelper();
         const decoded = jwtHelper.decodeToken(token);
         const user = {
@@ -39,36 +57,32 @@ export class AuthService {
             email: decoded.email,
             username: decoded.username
         }
-        this.token = token;
-        this.user = user;
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', token);
-    }
-
-    initializeFromLocalStorage() {
-        const token = localStorage.getItem('token');
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (token === null || user === null) {
-            this.nullAndClear();
-            return;
+        // if (token === null || user === null) {
+        //     this.nullAndClear();
+        //     return;
+        // }
+        if (tokenNotExpired()) {
+            this.store.dispatch(new AuthActions.Signin());
+            this.store.dispatch(new AuthActions.SetToken({token: token, user: user}));
+        } else {
+            localStorage.clear();
         }
-        this.token = token;
-        this.user = user;
     }
 
-    loggedIn() {
-        return tokenNotExpired();
-    }
+    // loggedIn() {
+    //     return tokenNotExpired();
+    // }
     
-    nullAndClear() {
-        this.token = null;
-        this.user = null;
-        localStorage.clear();
-    }
+    // nullAndClear() {
+    //     this.token = null;
+    //     this.user = null;
+    //     localStorage.clear();
+    // }
 
     logout() {
         // this.nullAndClear();
         this.store.dispatch(new AuthActions.Logout());
+        localStorage.clear();
         this.router.navigate(['/signin']);
     }
 }

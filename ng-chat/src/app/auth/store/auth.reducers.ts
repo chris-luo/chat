@@ -1,15 +1,18 @@
 import * as AuthActions from './auth.actions';
+import { User } from 'app/shared/user.model';
 
 export interface State {
     token: string;
     authenticated: boolean;
-    error: boolean,
-    message: string
+    user: User;
+    error: boolean;
+    message: string;
 }
 
 const initialState: State = {
     token: null,
     authenticated: false,
+    user: null,
     error: false,
     message: null
 }
@@ -38,12 +41,14 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 token: null,
-                authenticated: false
+                authenticated: false,
+                user: null
             }
         case AuthActions.SET_TOKEN:
             return {
                 ...state,
-                token: action.payload
+                token: action.payload.token,
+                user: action.payload.user
             }
         default:
             return state;
