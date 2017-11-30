@@ -10,7 +10,7 @@ import 'rxjs/add/observable/of';
 
 import { AuthService } from '../auth.service';
 import * as AuthActions from './auth.actions';
-import { User } from 'app/shared/user.model';
+import { User } from '../../shared/user.model';
 
 // import { of } from 'rxjs/observable/of';
 // import { map } from 'rxjs/operators/map';

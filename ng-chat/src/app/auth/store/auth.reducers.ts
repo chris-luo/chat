@@ -1,5 +1,5 @@
 import * as AuthActions from './auth.actions';
-import { User } from 'app/shared/user.model';
+import { User } from '../../shared/user.model';
 
 export interface State {
     token: string;

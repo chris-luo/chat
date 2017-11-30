@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { User } from 'app/shared/user.model';
+import { User } from '../../shared/user.model';
 
 export const TRY_SIGNUP = 'TRY_SIGNUP';
 export const TRY_SIGNIN = 'TRY_SIGNIN';
