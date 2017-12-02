@@ -6,6 +6,8 @@ import { Store } from "@ngrx/store";
 import { Message } from "./message.model";
 import * as fromChat from './store/chat.reducers';
 import { environment } from '../../environments/environment';
+import * as fromAuth from '../auth/store/auth.reducers';
+import { take } from "rxjs/operators";
 
 @Injectable()
 export class ChatService {
@@ -16,7 +18,13 @@ export class ChatService {
 
     constructor(private authService: AuthService, private store: Store<fromChat.FeatureState>) {
         this.connect();
-        this.user = this.authService.getUser();
+        this.store.select('auth')
+            .pipe(
+                take(1)
+            )
+            .subscribe((authState: fromAuth.State) => {
+                this.user = authState.user
+            });
     }
 
     private connect() {

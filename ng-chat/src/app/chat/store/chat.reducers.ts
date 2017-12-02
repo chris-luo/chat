@@ -1,7 +1,8 @@
 import * as ChatActions from './chat.actions';
 import { Message } from '../message.model';
+import * as fromApp from '../../store/app.reducers';
 
-export interface FeatureState {
+export interface FeatureState extends fromApp.AppState {
     chat: State
 }
 
