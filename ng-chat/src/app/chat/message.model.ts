@@ -6,6 +6,7 @@ export class Message {
     },
     public message: {
       text: string,
-      float: string
+      float: string,
+      dateTime: string
     }) {}
 }
