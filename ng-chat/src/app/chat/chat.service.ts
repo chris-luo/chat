@@ -8,6 +8,7 @@ import * as fromChat from './store/chat.reducers';
 import { environment } from '../../environments/environment';
 import * as fromAuth from '../auth/store/auth.reducers';
 import { take } from "rxjs/operators";
+import * as format from 'date-fns/format';
 
 @Injectable()
 export class ChatService {
@@ -43,7 +44,7 @@ export class ChatService {
     }
 
     sendMessage(message: string) {
-        this.messageDispatcher(new Message(this.user, {text: message, float: 'right'}));
-        this.socket.emit('post', new Message(this.user, {text: message, float: 'left'}));
+        this.messageDispatcher(new Message(this.user, {text: message, float: 'right', dateTime: format(new Date())}));
+        this.socket.emit('post', new Message(this.user, {text: message, float: 'left', dateTime: format(new Date())}));
     }
 }
