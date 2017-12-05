@@ -11,9 +11,10 @@ import { ChatComponent } from "./chat.component";
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
+import { ChatsComponent } from './chats/chats.component';
 
 @NgModule({
-    declarations: [ChatComponent, ChatWindowComponent, ChatMessageComponent, ChatInputComponent],
+    declarations: [ChatComponent, ChatWindowComponent, ChatMessageComponent, ChatInputComponent, ChatsComponent],
     imports: [
         CommonModule,
         FormsModule,
