@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
 import { Message } from '../message.model';
+import { Chat } from '../chat.model';
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
+export const NEW_CHAT = 'NEW_CHAT';
 
 export class AddMessage implements Action {
     readonly type = ADD_MESSAGE;
@@ -14,4 +16,9 @@ export class SetCurrentChat implements Action {
     constructor(public payload: number) {}
 }
 
-export type ChatActions = AddMessage | SetCurrentChat;
+export class NewChat implements Action {
+    readonly type = NEW_CHAT;
+    constructor(public payload: Chat) {}
+}
+
+export type ChatActions = AddMessage | SetCurrentChat | NewChat;

@@ -38,6 +38,14 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
                 ...state,
                 currentChat: action.payload
             }
+        case ChatActions.NEW_CHAT:
+            //New chat gets added to the start of the array
+            //Return current chat as 0 the new added chat
+            return {
+                ...state,
+                chats: [action.payload, ...state.chats],
+                currentChat: 0
+            }
         default:
             return state;
     }

@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col">
+    <form #f="ngForm">
+      <div class="input-group">
+        <label class="input-group-addon" for="to">To:</label>
+        <input type="text" id="to" class="form-control" ngModel name="to"/>
+      </div>
+      <app-chat-window></app-chat-window>
+      <app-chat-input (message)="onMessage($event, f)"></app-chat-input>
+    </form>
+  </div>
+</div>
