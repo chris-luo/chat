@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StoreModule } from '@ngrx/store';
 import { chatReducer } from "./store/chat.reducers";
 
@@ -20,6 +20,7 @@ import { ChatService } from "./chat.service";
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         MaterialModule,
         ChatRoutingModule,
         StoreModule.forFeature('chat', chatReducer)

@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromChat from '../store/chat.reducers';
 import * as ChatActions from '../store/chat.actions';
 import { Chat } from '../chat.model';
 import { ChatService } from '../chat.service';
+import { ApiService } from '../../shared/api.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-new-chat',
@@ -14,23 +16,39 @@ import { ChatService } from '../chat.service';
   encapsulation: ViewEncapsulation.None
 })
 export class NewChatComponent implements OnInit {
+  form: FormGroup;
 
-  constructor(private store: Store<fromChat.FeatureState>, private chatService: ChatService, private router: Router) { }
+  constructor(private apiService: ApiService, private store: Store<fromChat.FeatureState>, private chatService: ChatService, private router: Router) { }
 
   ngOnInit() {
+    this.initializeForm();
   }
 
-  onMessage(message: string, form:NgForm) {
-    console.log(message);
-    console.log(form.value);
-    const newChat: Chat = {
-      id: 0,
-      users: [{id: 9, username: form.value.to, email: 'something@gmail.com'}],
-      messages: []
+  initializeForm() {
+    this.form = new FormGroup({
+      to: new FormControl(null, {updateOn: 'blur', asyncValidators: [this.checkUser.bind(this)]})
+    });
+  }
+
+  checkUser(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      this.apiService.findUser(control.value).subscribe(res => {
+        resolve(null);
+            }, error => {
+              resolve({'user': true})
+            });
+    });
+    return promise;
+  }
+
+  onMessage(message: string) {
+    if (!this.form.valid) {
+      return;
     }
-    this.store.dispatch(new ChatActions.NewChat(newChat));
-    this.chatService.sendMessage(message);
-    this.router.navigate(['chat/chat']);
+
+    // this.store.dispatch(new ChatActions.NewChat(newChat));
+    // this.chatService.sendMessage(message);
+    // this.router.navigate(['chat/chat']);
   }
 
 }
