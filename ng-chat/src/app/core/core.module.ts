@@ -7,6 +7,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { MaterialModule } from '../shared/material.module';
 import { HomeComponent } from './home/home.component';
 import { AuthService } from '../auth/auth.service';
+import { ApiService } from '../shared/api.service';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { AuthService } from '../auth/auth.service';
         MaterialModule
     ],
     providers: [
-        AuthService
+        AuthService,
+        ApiService
     ]
 })
 
