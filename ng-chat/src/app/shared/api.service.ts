@@ -9,6 +9,6 @@ export class ApiService {
 
     findUser(user: string) {
         const params = new HttpParams().set('user', user);
-        return this.http.get(`${this.apiEndPoint}/user`, {params: params});
+        return this.http.get(`${this.apiEndPoint}/resources/user`, {params: params});
     }
 }
