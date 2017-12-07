@@ -11,4 +11,8 @@ export class ApiService {
         const params = new HttpParams().set('user', user);
         return this.http.get(`${this.apiEndPoint}/resources/user`, {params: params});
     }
+
+    newChat(chat: {user: string, message: string}) {
+        return this.http.post(`${this.apiEndPoint}/users/chat`, chat);
+    }
 }
