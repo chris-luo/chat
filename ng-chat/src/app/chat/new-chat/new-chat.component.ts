@@ -32,11 +32,15 @@ export class NewChatComponent implements OnInit {
 
   checkUser(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
-      this.apiService.findUser(control.value).subscribe(res => {
-        resolve(null);
-            }, error => {
-              resolve({'user': true})
-            });
+      if (control.value===null) {
+        resolve({'user': true});
+      } else {
+        this.apiService.findUser(control.value).subscribe(res => {
+          resolve(null);
+              }, error => {
+                resolve({'user': true})
+              });
+      }
     });
     return promise;
   }
