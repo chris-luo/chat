@@ -102,13 +102,44 @@ export class UserRouter {
         }
     }
 
+    private async newChat(req: Request, res: Response, next: NextFunction) {
+        try {
+            let queryConfig: QueryConfig = {
+                text: `SELECT id, username, email FROM chat_user WHERE email=$1 or username=$1`,
+                values: [req.body.user]
+            };
+            const rows = await db.query(queryConfig);
+            if (rows.length === 0) {
+                return res.status(409).json({
+                    message: "User does not exist.",
+                });
+            }
+            //TODO add token id to values
+            const queryConfig2: QueryConfig = {
+                text: `INSERT INTO chat(id) VALUES($1) RETURNING *`,
+                values: [`2:${rows[0].id}`]
+            };
+            const rows2 = await db.query(queryConfig2);
+            
+            return res.json({
+                message: "Success",
+                data: rows2[0].id
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: error.code
+            });
+        }
+    }
+
     private signinSanitization() {
         return sanitizeBody('email').trim().normalizeEmail();
     }
 
     private init() {
         this.router.post('/signup', this.signupValidation(), this.signup);
-        this.router.post('/signin', this.signinSanitization(), this.signin);        
+        this.router.post('/signin', this.signinSanitization(), this.signin);
+        this.router.post('/chat', this.newChat);  //TODO sanitization
     }
 }
 
