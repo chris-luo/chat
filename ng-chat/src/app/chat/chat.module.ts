@@ -3,7 +3,9 @@ import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from "@ngrx/effects";
 import { chatReducer } from "./store/chat.reducers";
+import { ChatEffects } from './store/chat.effects';
 
 import { ChatRoutingModule } from "./chat-routing.module";
 import { MaterialModule } from "../shared/material.module";
@@ -23,7 +25,8 @@ import { ChatService } from "./chat.service";
         ReactiveFormsModule,
         MaterialModule,
         ChatRoutingModule,
-        StoreModule.forFeature('chat', chatReducer)
+        StoreModule.forFeature('chat', chatReducer),
+        EffectsModule.forFeature([ChatEffects])
     ],
     providers: [ChatService]
 })
