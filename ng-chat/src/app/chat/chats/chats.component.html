@@ -4,9 +4,9 @@
     <mat-nav-list>
       <a mat-list-item *ngFor="let chat of (chatState$ | async).chats; let i = index" (click)="onChat(i)">
           <mat-icon mat-list-icon>face</mat-icon>
-          <h4 mat-line>{{chat.users[0].username}}</h4>
-          <p mat-line> {{chat.messages[chat.messages.length-1].message.text}} </p>
-          <span class="chats-time">{{chat.messages[chat.messages.length-1].message.dateTime | date:'shortTime'}} </span>
+          <h4 mat-line>{{chat.users[1]}}</h4>
+          <p mat-line> {{chat.messages[chat.messages.length-1]?.message.text}} </p>
+          <span class="chats-time">{{chat.messages[chat.messages.length-1]?.message.dateTime | date:'shortTime'}} </span>
         </a>
      </mat-nav-list>
   </div>
