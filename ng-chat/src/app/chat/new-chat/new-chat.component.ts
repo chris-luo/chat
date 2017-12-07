@@ -49,9 +49,11 @@ export class NewChatComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-
-    // this.store.dispatch(new ChatActions.NewChat(newChat));
-    // this.chatService.sendMessage(message);
+    const newChat = {
+      user: this.form.value.to,
+      message: message
+    }
+    this.store.dispatch(new ChatActions.TryNewChat(newChat));
     // this.router.navigate(['chat/chat']);
   }
 
