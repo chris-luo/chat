@@ -6,10 +6,12 @@ import * as logger from "morgan";
 import * as cors from "cors";
 import * as bodyParser from "body-parser";
 import * as path from "path";
+import * as passport from 'passport';
 
 import { ChatSocket } from "./controllers/ChatSocket";
 import UserRouter from "./routes/UserRouter";
 import ResourceRouter from "./routes/ResourceRouter";
+import {Passport} from './controllers/Passport';
 
 export class App {
     public express: any;
@@ -30,6 +32,8 @@ export class App {
     }
 
     private middleware(): void {
+        passport.use(new Passport().getStrategy());
+        this.express.use(passport.initialize());
         this.express.use(logger('dev'));
         this.express.use(cors());
         this.express.use(bodyParser.json());
