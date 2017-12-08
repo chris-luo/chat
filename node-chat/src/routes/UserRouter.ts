@@ -6,6 +6,7 @@ import { QueryConfig } from "pg";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as config from "config";
+import * as passport from 'passport';
 
 export class UserRouter {
     router: Router;
@@ -117,7 +118,7 @@ export class UserRouter {
             //TODO add token id to values
             const queryConfig2: QueryConfig = {
                 text: `INSERT INTO chat(id, total_messages) VALUES($1, 1) ON CONFLICT (id) DO UPDATE SET total_messages = chat.total_messages + 1 RETURNING *`,
-                values: [`2:${rows[0].id}`]
+                values: [`${req.user.id}:${rows[0].id}`]
             };
             const rows2 = await db.query(queryConfig2);
             
@@ -139,7 +140,7 @@ export class UserRouter {
     private init() {
         this.router.post('/signup', this.signupValidation(), this.signup);
         this.router.post('/signin', this.signinSanitization(), this.signin);
-        this.router.post('/chat', this.newChat);  //TODO sanitization
+        this.router.post('/chat', passport.authenticate('jwt', { session: false }), this.newChat);  //TODO sanitization
     }
 }
 
