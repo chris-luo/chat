@@ -116,7 +116,7 @@ export class UserRouter {
             }
             //TODO add token id to values
             const queryConfig2: QueryConfig = {
-                text: `INSERT INTO chat(id) VALUES($1) RETURNING *`,
+                text: `INSERT INTO chat(id, total_messages) VALUES($1, 1) ON CONFLICT (id) DO UPDATE SET total_messages = chat.total_messages + 1 RETURNING *`,
                 values: [`2:${rows[0].id}`]
             };
             const rows2 = await db.query(queryConfig2);
