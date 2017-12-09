@@ -8,6 +8,7 @@ import { Chat } from '../chat.model';
 import { ChatService } from '../chat.service';
 import { ApiService } from '../../shared/api.service';
 import { Observable } from 'rxjs/Observable';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-chat',
@@ -18,7 +19,13 @@ import { Observable } from 'rxjs/Observable';
 export class NewChatComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private apiService: ApiService, private store: Store<fromChat.FeatureState>, private chatService: ChatService, private router: Router) { }
+  constructor(
+    private apiService: ApiService, 
+    private store: Store<fromChat.FeatureState>, 
+    private chatService: ChatService, 
+    private router: Router,
+    private snakeBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -38,7 +45,8 @@ export class NewChatComponent implements OnInit {
         this.apiService.findUser(control.value).subscribe(res => {
           resolve(null);
               }, error => {
-                resolve({'user': true})
+                this.snakeBar.open(error.error, 'X', {duration: 3000});
+                resolve({'user': true});
               });
       }
     });

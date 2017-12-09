@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import * as fromChat from './chat.reducers';
 import * as fromAuth from '../../auth/store/auth.reducers'
 import { User } from '../../shared/user.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
 export class ChatEffects {
@@ -48,10 +49,15 @@ export class ChatEffects {
                 )
         }),
         catchError((error: HttpErrorResponse) => {
+            this.snackBar.open(error.error);
             return Observable.of({  });
         })
     );
-    constructor(private actions$: Actions, private apiService: ApiService, private store: Store<fromChat.FeatureState>) {
+    constructor(
+        private actions$: Actions, 
+        private apiService: ApiService, 
+        private store: Store<fromChat.FeatureState>,
+        private snackBar: MatSnackBar) {
         this.store.select('auth').subscribe((authState: fromAuth.State) => {
             this.user = authState.user;
         });
