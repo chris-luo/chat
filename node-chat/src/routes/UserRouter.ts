@@ -18,7 +18,7 @@ export class UserRouter {
     private async signup(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.mapped() });
+            return res.status(422).json(errors.mapped());
         }
         const user = matchedData(req);
 
@@ -48,9 +48,7 @@ export class UserRouter {
                 data: token
             });
         } catch (error) {
-            return res.status(500).json({
-                message: error.code
-            });
+            return res.status(500).json(error.code);
         }
     }
 
@@ -71,18 +69,14 @@ export class UserRouter {
             const rows = await db.query(queryConfig);
             if (rows.length === 0) {
                 //No user exists
-                return res.status(401).send({
-                    message: "Wrong email or password."
-                });
+                return res.status(401).json('Wrong email or password.');
             }
             const date = Date.now();
             const match = await bcrypt.compare(req.body.password, rows[0].password);
             console.log('Hash Time', Date.now() - date);
 
             if (!match) {
-                return res.status(401).send({
-                    message: "Wrong email or password."
-                });
+                return res.status(401).json('Wrong email or password.');
             }
             //User authenticated create jwt and send
             const user = {
@@ -97,9 +91,7 @@ export class UserRouter {
             });
         }
         catch (error) {
-            res.status(500).json({
-                message: error.code
-            });
+            res.status(500).json(error.code);
         }
     }
 
@@ -111,9 +103,7 @@ export class UserRouter {
             };
             const rows = await db.query(queryConfig);
             if (rows.length === 0) {
-                return res.status(409).json({
-                    message: "User does not exist.",
-                });
+                return res.status(409).json('User does not exist.');
             }
             //TODO add token id to values
             const queryConfig2: QueryConfig = {
@@ -127,9 +117,7 @@ export class UserRouter {
                 data: rows2[0].id
             });
         } catch (error) {
-            return res.status(500).json({
-                message: error.code
-            });
+            return res.status(500).json(error.code);
         }
     }
 

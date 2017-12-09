@@ -18,18 +18,14 @@ export class ResourceRouter {
             };
             const rows = await db.query(queryConfig);
             if (rows.length > 0) {
-                return res.status(409).json({
-                    message: "User already exists.",
-                });
+                return res.status(409).json('User already exists.');
             }
             return res.json({
                 message: "Success",
                 data: rows.length
             });
         } catch (error) {
-            return res.status(500).json({
-                message: error.code
-            });
+            return res.status(500).json(error.code);
         }
     }
 
@@ -41,18 +37,14 @@ export class ResourceRouter {
             };
             const rows = await db.query(queryConfig);
             if (rows.length === 0) {
-                return res.status(409).json({
-                    message: "User does not exist.",
-                });
+                return res.status(409).json('User does not exist.');
             }
             return res.json({
                 message: "Success",
                 data: rows.length
             });
         } catch (error) {
-            return res.status(500).json({
-                message: error.code
-            });
+            return res.status(500).json(error.code);
         }
     }
 
