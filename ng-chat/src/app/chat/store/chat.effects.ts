@@ -49,7 +49,7 @@ export class ChatEffects {
                 )
         }),
         catchError((error: HttpErrorResponse) => {
-            this.snackBar.open(error.error);
+            this.snackBar.open(error.error, 'X', {duration: 3000});
             return Observable.of({  });
         })
     );

@@ -54,9 +54,6 @@ export class NewChatComponent implements OnInit {
   }
 
   onMessage(message: string) {
-    if (!this.form.valid) {
-      return;
-    }
     const newChat = {
       user: this.form.value.to,
       message: message
