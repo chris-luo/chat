@@ -103,9 +103,9 @@ export class UserRouter {
             };
             const rows = await db.query(queryConfig);
             if (rows.length === 0) {
-                return res.status(409).json('User does not exist.');
+                return res.status(409).json(`User ${req.body.user} does not exist.`);
             }
-            //TODO add token id to values
+
             const queryConfig2: QueryConfig = {
                 text: `INSERT INTO chat(id, total_messages) VALUES($1, 1) ON CONFLICT (id) DO UPDATE SET total_messages = chat.total_messages + 1 RETURNING *`,
                 values: [`${req.user.id}:${rows[0].id}`]
