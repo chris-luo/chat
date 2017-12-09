@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { MatListModule } from '@angular/material/list';
         MatButtonModule,
         MatCardModule,
         MatInputModule,
-        MatListModule
+        MatListModule,
+        MatSnackBarModule
     ],
     exports: [
         MatMenuModule,
@@ -24,7 +26,8 @@ import { MatListModule } from '@angular/material/list';
         MatButtonModule,
         MatCardModule,
         MatInputModule,
-        MatListModule
+        MatListModule,
+        MatSnackBarModule
     ]
 })
 
