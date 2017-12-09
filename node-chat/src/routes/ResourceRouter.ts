@@ -37,7 +37,7 @@ export class ResourceRouter {
             };
             const rows = await db.query(queryConfig);
             if (rows.length === 0) {
-                return res.status(409).json('User does not exist.');
+                return res.status(409).json(`User ${req.query.user} does not exist.`);
             }
             return res.json({
                 message: "Success",
