@@ -1,12 +1,8 @@
 export class Message {
-  constructor(public user: {
-      id: number,
-      email: string,
-      username: string
-    },
-    public message: {
-      text: string,
-      float: string,
-      dateTime: string
-    }) {}
+  constructor(
+    public id: string,
+    public content: string,
+    public timestamp: string
+  )
+ {}
 }
