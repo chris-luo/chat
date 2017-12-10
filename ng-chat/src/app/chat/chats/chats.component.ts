@@ -21,6 +21,7 @@ export class ChatsComponent implements OnInit {
 
   ngOnInit() {
     this.chatState$ = this.store.select('chat');
+    this.store.dispatch(new ChatActions.GetChats());
   }
 
   onChat(index: number) {
