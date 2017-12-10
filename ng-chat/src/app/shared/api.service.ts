@@ -15,4 +15,8 @@ export class ApiService {
     newChat(chat: {user: string, message: string}) {
         return this.http.post(`${this.apiEndPoint}/users/chat`, chat);
     }
+
+    getChats() {
+        return this.http.get(`${this.apiEndPoint}/users/chat`);
+    }
 }
