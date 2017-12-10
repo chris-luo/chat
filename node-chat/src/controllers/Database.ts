@@ -29,6 +29,10 @@ export class Database {
              throw error;
         }
     }
+
+    async getClient() {
+        return await this.pool.connect();
+    }
 }
 
 const database = new Database();
