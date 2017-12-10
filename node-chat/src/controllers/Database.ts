@@ -31,7 +31,12 @@ export class Database {
     }
 
     async getClient() {
-        return await this.pool.connect();
+        try {
+            return await this.pool.connect();
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 }
 
