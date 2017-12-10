@@ -28,31 +28,47 @@ export class ChatEffects {
         switchMap((chat: {user: string, message: string}) => {
             return this.apiService.newChat(chat)
                 .pipe(
-                    mergeMap((res:any) => {
-                        const newChat: Chat = {
-                            id: res.data,
-                            users: res.data.split(':'),
-                            messages: []
-                        }
-                        const message = new Message(this.user, {text: chat.message, float: 'right', dateTime: format(new Date())})
-                        return [{
+                    map((res:any) => {
+                        return {
                                 type: ChatActions.NEW_CHAT,
-                                payload: newChat
-                                },
-                                {
-                                    type: ChatActions.ADD_MESSAGE,
-                                    payload: message
+                                payload: res.data
                                 }
-                        ]
-                        
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                        this.snackBar.open(error.error, 'X', {duration: 3000});
+                        return Observable.of({
+                            type: ChatActions.CHAT_ERROR
+                        });
                     })
                 )
-        }),
-        catchError((error: HttpErrorResponse) => {
-            this.snackBar.open(error.error, 'X', {duration: 3000});
-            return Observable.of({  });
         })
     );
+
+    @Effect()
+    getChats = this.actions$.
+    ofType(ChatActions.GET_CHATS)
+    .pipe(
+        map((action: ChatActions.GetChats) => {
+            return;
+        }),
+        switchMap(() => {
+            return this.apiService.getChats()
+                .pipe(
+                    map((res:any) => {
+                        return {
+                            type: ChatActions.SET_CHATS,
+                            payload: res.data
+                        }
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                        this.snackBar.open(error.error, 'X', {duration: 3000});
+                        return Observable.of({
+                            type: ChatActions.CHAT_ERROR
+                        });
+                    })
+                )
+        })
+    )
     constructor(
         private actions$: Actions, 
         private apiService: ApiService, 
