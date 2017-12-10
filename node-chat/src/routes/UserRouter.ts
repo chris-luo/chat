@@ -106,15 +106,60 @@ export class UserRouter {
                 return res.status(409).json(`User ${req.body.user} does not exist.`);
             }
 
-            const queryConfig2: QueryConfig = {
-                text: `INSERT INTO chat(id, total_messages) VALUES($1, 1) ON CONFLICT (id) DO UPDATE SET total_messages = chat.total_messages + 1 RETURNING *`,
-                values: [`${req.user.id}:${rows[0].id}`]
-            };
-            const rows2 = await db.query(queryConfig2);
-            
-            return res.json({
-                message: "Success",
-                data: rows2[0].id
+            const client = await db.getClient();
+            try {
+                await client.query('BEGIN');
+                const queryConfig2: QueryConfig = {
+                    text: `INSERT INTO chat(id, total_messages) VALUES($1, 1) ON CONFLICT (id) DO UPDATE SET total_messages = chat.total_messages + 1 RETURNING *`,
+                    values: [`${req.user.username}:${rows[0].username}`]
+                };
+                const rows2 = await client.query(queryConfig2);
+                const queryConfig3: QueryConfig = {
+                    text: `INSERT INTO message(id, content, sender) VALUES($1, $2, $3) RETURNING *`,
+                    values: [`${rows2.rows[0].id}:${rows2.rows[0].total_messages}`, req.body.message, req.user.username]
+                };
+                const rows3 = await client.query(queryConfig3);
+                await client.query('COMMIT');
+                const newChat = {
+                    id: rows2.rows[0].id,
+                    users: rows2.rows[0].id.split(':'),
+                    messages: rows3.rows
+                }
+                return res.json({
+                    message: "Success",
+                    data: newChat
+                });
+            } catch (error) {
+                await client.query('ROLLBACK');
+                return res.status(500).json(error.code);
+            } finally {
+                client.release();
+            }
+
+        } catch (error) {
+            return res.status(500).json(error.code);
+        }
+    }
+
+    private async getChats(req: Request, res: Response, next: NextFunction) {
+        try {
+            const queryConfig: QueryConfig = {
+                text: `SELECT * FROM chat WHERE id LIKE $1`,
+                values: [`%${req.user.username}%`]
+            }
+            const rows = await db.query(queryConfig);
+            let chats:any[] = [];
+            for (let row of rows) {
+                let queryConfig: QueryConfig = {
+                    text: `SELECT * FROM message WHERE id=$1`,
+                    values: [`${row.id}:${row.total_messages}`]
+                }
+                row.messages = await db.query(queryConfig);
+                row.users = row.id.split(':');
+                chats = [...chats, row]
+            }
+            res.json({
+                data: chats
             });
         } catch (error) {
             return res.status(500).json(error.code);
@@ -129,6 +174,7 @@ export class UserRouter {
         this.router.post('/signup', this.signupValidation(), this.signup);
         this.router.post('/signin', this.signinSanitization(), this.signin);
         this.router.post('/chat', passport.authenticate('jwt', { session: false }), this.newChat);  //TODO sanitization
+        this.router.get('/chat', passport.authenticate('jwt', { session: false }), this.getChats);
     }
 }
 
