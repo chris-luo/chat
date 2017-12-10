@@ -19,6 +19,11 @@ const initialState: State = {
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
     switch (action.type) {
+        case ChatActions.SET_CHATS:
+            return {
+                ...state,
+                chats: action.payload
+            }
         case ChatActions.ADD_MESSAGE:
             const chat = state.chats[state.currentChat];
             const updatedChat = {
