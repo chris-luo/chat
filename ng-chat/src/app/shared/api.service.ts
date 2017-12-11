@@ -17,6 +17,6 @@ export class ApiService {
     }
 
     getChats() {
-        return this.http.get(`${this.apiEndPoint}/users/chat`);
+        return this.http.get(`${this.apiEndPoint}/users/chats`);
     }
 }

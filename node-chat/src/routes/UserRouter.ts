@@ -174,7 +174,7 @@ export class UserRouter {
         this.router.post('/signup', this.signupValidation(), this.signup);
         this.router.post('/signin', this.signinSanitization(), this.signin);
         this.router.post('/chat', passport.authenticate('jwt', { session: false }), this.newChat);  //TODO sanitization
-        this.router.get('/chat', passport.authenticate('jwt', { session: false }), this.getChats);
+        this.router.get('/chats', passport.authenticate('jwt', { session: false }), this.getChats);
     }
 }
 
