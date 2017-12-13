@@ -2,7 +2,7 @@
   <div class="col">
     <button mat-button routerLink="new-chat">New Chat</button>
     <mat-nav-list>
-      <a mat-list-item *ngFor="let chat of (chatState$ | async).chats; let i = index" (click)="onChat(i)">
+      <a mat-list-item *ngFor="let chat of (chatState$ | async).chats; let i = index" (click)="onChat(chat, i)">
           <mat-icon mat-list-icon>face</mat-icon>
           <h4 mat-line>{{chat.users[1]}}</h4>
           <p mat-line> {{chat.messages[chat.messages.length-1]?.content}} </p>
