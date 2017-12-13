@@ -46,7 +46,7 @@ export class ChatService {
     sendMessage(message: string) {
         // this.messageDispatcher(new Message(this.user, {text: message, float: 'right', dateTime: format(new Date())}));
         // this.socket.emit('post', new Message(this.user, {text: message, float: 'left', dateTime: format(new Date())}));
-        this.messageDispatcher(new Message('0', message, format(new Date())));
-        this.socket.emit('post', new Message('0', message, format(new Date())));
+        this.messageDispatcher(new Message('0', message, this.user.username, format(new Date())));
+        this.socket.emit('post', new Message('0', message, this.user.username, format(new Date())));
     }
 }
