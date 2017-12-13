@@ -163,7 +163,7 @@ export class UserRouter {
                 chats = [...chats, row]
             }
             chats = chats.sort((a: any, b: any) => {
-                return compareDesc(a.messages[a.messages.length-1].timestamp, b.messages[a.messages.length-1].timestamp)
+                return compareDesc(a.messages[a.messages.length-1].timestamp, b.messages[b.messages.length-1].timestamp)
             });
             res.json({
                 data: chats
