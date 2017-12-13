@@ -7,6 +7,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as config from "config";
 import * as passport from 'passport';
+import * as compareDesc from 'date-fns/compare_desc';
 
 export class UserRouter {
     router: Router;
@@ -151,13 +152,19 @@ export class UserRouter {
             let chats:any[] = [];
             for (let row of rows) {
                 let queryConfig: QueryConfig = {
-                    text: `SELECT * FROM message WHERE id=$1`,
-                    values: [`${row.id}:${row.total_messages}`]
+                    //TODO: get only last couple messages.
+                    // text: `SELECT * FROM message WHERE id=$1`,
+                    // values: [`${row.id}:${row.total_messages}`]
+                    text: `SELECT * FROM message WHERE id LIKE $1`,
+                    values: [`%${row.id}%`]
                 }
                 row.messages = await db.query(queryConfig);
                 row.users = row.id.split(':');
                 chats = [...chats, row]
             }
+            chats = chats.sort((a: any, b: any) => {
+                return compareDesc(a.messages[a.messages.length-1].timestamp, b.messages[a.messages.length-1].timestamp)
+            });
             res.json({
                 data: chats
             });
