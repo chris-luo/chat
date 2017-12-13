@@ -8,7 +8,8 @@ export const NEW_CHAT = 'NEW_CHAT';
 export const TRY_NEW_CHAT = 'TRY_NEW_CHAT';
 export const GET_CHATS = 'GET_CHATS';
 export const SET_CHATS = 'SET_CHATS';
-export const CHAT_ERROR = ' CHAT_ERROR';
+export const CHAT_ERROR = 'CHAT_ERROR';
+export const JOIN_ROOM = 'JOIN_ROOM';
 
 export class AddMessage implements Action {
     readonly type = ADD_MESSAGE;
@@ -43,4 +44,9 @@ export class ChatError implements Action {
     readonly type = CHAT_ERROR;
 }
 
-export type ChatActions = AddMessage | SetCurrentChat | NewChat | TryNewChat | GetChats | SetChats | ChatError;
+export class JoinRoom implements Action {
+    readonly type = JOIN_ROOM;
+    constructor(public payload: string) {}
+}
+
+export type ChatActions = AddMessage | SetCurrentChat | NewChat | TryNewChat | GetChats | SetChats | ChatError | JoinRoom;

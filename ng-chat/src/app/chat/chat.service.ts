@@ -18,7 +18,7 @@ export class ChatService {
     private user: {id: number, username: string, email: string};
 
     constructor(private authService: AuthService, private store: Store<fromChat.FeatureState>) {
-        this.connect();
+        // this.connect();
         this.store.select('auth')
             .pipe(
                 take(1)
