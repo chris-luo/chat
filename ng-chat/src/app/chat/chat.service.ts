@@ -16,6 +16,7 @@ export class ChatService {
     private socket;
 
     private user: {id: number, username: string, email: string};
+    private currentChat
 
     constructor(private authService: AuthService, private store: Store<fromChat.FeatureState>) {
         // this.connect();
@@ -25,6 +26,13 @@ export class ChatService {
             )
             .subscribe((authState: fromAuth.State) => {
                 this.user = authState.user
+            });
+
+            this.store.select('chat')
+
+            .subscribe((chatState: fromChat.State) => {
+                this.currentChat = chatState.chats[chatState.currentChat];
+                console.log(this.currentChat)
             });
     }
 
@@ -46,7 +54,10 @@ export class ChatService {
     sendMessage(message: string) {
         // this.messageDispatcher(new Message(this.user, {text: message, float: 'right', dateTime: format(new Date())}));
         // this.socket.emit('post', new Message(this.user, {text: message, float: 'left', dateTime: format(new Date())}));
-        this.messageDispatcher(new Message('0', message, this.user.username, format(new Date())));
-        this.socket.emit('post', new Message('0', message, this.user.username, format(new Date())));
+        // this.messageDispatcher(new Message('0', message, this.user.username, format(new Date())));
+        // this.socket.emit('post', new Message('0', message, this.user.username, format(new Date())));
+        this.store.dispatch(new ChatActions.TryAddMessage({
+            message: new Message('0', message, this.user.username, format(new Date())), 
+            chat: this.currentChat}))
     }
 }

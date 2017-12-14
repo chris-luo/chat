@@ -87,6 +87,18 @@ export class ChatEffects {
         })
     )
 
+    @Effect({dispatch: false})
+    addMessage = this.actions$.
+    ofType(ChatActions.TRY_ADD_MESSAGE)
+    .pipe(
+        map((action: ChatActions.TryAddMessage) => {
+            return action.payload;
+        }),
+        tap((data: {message: Message, chat: Chat}) => {
+            this.socket.emit('post', [data.message, data.chat]);
+        })
+    )
+
     constructor(
         private actions$: Actions, 
         private apiService: ApiService, 
@@ -99,7 +111,10 @@ export class ChatEffects {
     }
 
     private connect() {
-        console.log('connecting')
         this.socket = io(this.url);
+        //TODO Dispatch add message
+        // this.socket.on('message', (data: Message) => {
+        //     this.messageDispatcher(data);
+        // });
     }
 }

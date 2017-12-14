@@ -3,6 +3,7 @@ import { Message } from '../message.model';
 import { Chat } from '../chat.model';
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const TRY_ADD_MESSAGE = 'TRY_ADD_MESSAGE';
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
 export const NEW_CHAT = 'NEW_CHAT';
 export const TRY_NEW_CHAT = 'TRY_NEW_CHAT';
@@ -14,6 +15,11 @@ export const JOIN_ROOM = 'JOIN_ROOM';
 export class AddMessage implements Action {
     readonly type = ADD_MESSAGE;
     constructor(public payload: Message) {}
+}
+
+export class TryAddMessage implements Action {
+    readonly type = TRY_ADD_MESSAGE;
+    constructor(public payload: {message: Message, chat: Chat}) {}
 }
 
 export class SetCurrentChat implements Action {
@@ -49,4 +55,4 @@ export class JoinRoom implements Action {
     constructor(public payload: string) {}
 }
 
-export type ChatActions = AddMessage | SetCurrentChat | NewChat | TryNewChat | GetChats | SetChats | ChatError | JoinRoom;
+export type ChatActions = AddMessage | SetCurrentChat | NewChat | TryNewChat | GetChats | SetChats | ChatError | JoinRoom | TryAddMessage;
