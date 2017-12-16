@@ -113,8 +113,9 @@ export class ChatEffects {
     private connect() {
         this.socket = io(this.url);
         //TODO Dispatch add message
-        // this.socket.on('message', (data: Message) => {
-        //     this.messageDispatcher(data);
-        // });
+        this.socket.on('message', (data: Message) => {
+            console.log(data);
+            this.store.dispatch(new ChatActions.AddMessage(data));
+        });
     }
 }
