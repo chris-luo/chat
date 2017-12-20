@@ -94,8 +94,10 @@ export class ChatEffects {
         map((action: ChatActions.TryAddMessage) => {
             return action.payload;
         }),
-        tap((data: {message: Message, chat: Chat}) => {
-            this.socket.emit('post', [data.message, data.chat]);
+        tap((data: {message: Message, id: string}) => {
+            this.socket.emit('post', {
+                message: data.message, 
+                id: data.id});
         })
     )
 
@@ -116,6 +118,9 @@ export class ChatEffects {
         this.socket.on('message', (data: Message) => {
             console.log(data);
             this.store.dispatch(new ChatActions.AddMessage(data));
+        });
+        this.socket.on('db_error', (error: any) => {
+            this.snackBar.open(error.message, 'X', {duration: 3000});
         });
     }
 }
