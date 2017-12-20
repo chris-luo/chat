@@ -19,7 +19,7 @@ export class AddMessage implements Action {
 
 export class TryAddMessage implements Action {
     readonly type = TRY_ADD_MESSAGE;
-    constructor(public payload: {message: Message, chat: Chat}) {}
+    constructor(public payload: {message: Message, id: string}) {}
 }
 
 export class SetCurrentChat implements Action {
