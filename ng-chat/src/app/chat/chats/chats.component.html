@@ -6,7 +6,7 @@
           <mat-icon mat-list-icon>face</mat-icon>
           <h4 mat-line>{{chat.users[1]}}</h4>
           <p mat-line> {{chat.messages[chat.messages.length-1]?.content}} </p>
-          <span class="chats-time">{{chat.messages[chat.messages.length-1]?.timestamp | date:'shortTime'}} </span>
+          <span class="chats-time">{{chat.messages[chat.messages.length-1]?.timestamp | chatDate }} </span>
         </a>
      </mat-nav-list>
   </div>
