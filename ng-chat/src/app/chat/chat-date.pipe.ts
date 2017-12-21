@@ -9,7 +9,6 @@ import * as differenceInHours from 'date-fns/difference_in_hours'
 export class ChatDatePipe implements PipeTransform {
     transform(date: any) {
         let hours = differenceInHours(new Date(), date);
-        console.log(hours);
         if (hours < 12) {
             return format(date, 'h:mm A');
         }
