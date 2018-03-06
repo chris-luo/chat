@@ -56,12 +56,12 @@ export class ChatEffects {
             return;
         }),
         switchMap(() => {
-            return this.apiService.getChats()
+            return this.apiService.getChats(this.user.id)
                 .pipe(
                     map((res:any) => {
                         return {
                             type: ChatActions.SET_CHATS,
-                            payload: res.data
+                            payload: res
                         }
                     }),
                     catchError((error: HttpErrorResponse) => {

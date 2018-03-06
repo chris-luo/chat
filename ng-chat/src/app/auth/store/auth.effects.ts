@@ -67,13 +67,13 @@ export class AuthEffects {
                 return this.authService.signIn(user)
                 .pipe(
                     mergeMap((res) => {
-                        const token = res['data'];
+                        const token = res['token'];
                         const user = this.extractUser(token);
                         const payload = {
                             token: token,
                             user: user
                         }
-                        localStorage.setItem('token', res['data']);
+                        localStorage.setItem('token', res['token']);
                         this.router.navigate(['/chat']);                        
                         return [
                             {
