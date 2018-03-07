@@ -30,7 +30,7 @@ export class ChatService {
 
     sendMessage(message: string) {
         this.store.dispatch(new ChatActions.TryAddMessage({
-            message: new Message(null, message, this.user.username, format(new Date())), 
+            message: new Message(null, message, this.user.id, format(new Date()), 0),
             id: this.currentChat.id}));
     }
 }

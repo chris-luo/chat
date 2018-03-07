@@ -1,3 +1,3 @@
-<mat-card class="chat-message" [ngClass]="{'my-message': message.sender === (authState$ | async).user.username}">
-  <p>{{ message.content }}</p>
+<mat-card class="chat-message" [ngClass]="{'my-message': message.sender_id === (authState$ | async).user.id}">
+  <p>{{ message.body }}</p>
 </mat-card>
