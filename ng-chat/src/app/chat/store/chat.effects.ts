@@ -74,6 +74,36 @@ export class ChatEffects {
         })
     )
 
+    @Effect()
+    getChatMessages = this.actions$.
+    ofType(ChatActions.GET_CHAT_MESSAGES)
+    .pipe(
+        map((action: ChatActions.GetChatMessages) => {
+            return action.payload;
+        }),
+        switchMap((payload: {chat_id: number, message_id: number}) => {
+            return this.apiService.getChatMessages(this.user.id, payload.chat_id, payload.message_id)
+                .pipe(
+                    map((res: any) => {
+                        console.log(res);
+                        return {
+                            type: ChatActions.SET_CHAT_MESSAGES,
+                            payload: {
+                                chat_id: payload.chat_id,
+                                messages: res
+                            }
+                        }
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                        this.snackBar.open(error.error, 'X', {duration: 3000});
+                        return Observable.of({
+                            type: ChatActions.CHAT_ERROR
+                        });
+                    })
+                )
+        })
+    )
+
     @Effect({dispatch: false})
     joinRoom = this.actions$.
     ofType(ChatActions.JOIN_ROOM)
@@ -109,7 +139,7 @@ export class ChatEffects {
         this.store.select('auth').subscribe((authState: fromAuth.State) => {
             this.user = authState.user;
         });
-        this.connect();
+        // this.connect();
     }
 
     private connect() {

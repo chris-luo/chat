@@ -9,6 +9,8 @@ export const NEW_CHAT = 'NEW_CHAT';
 export const TRY_NEW_CHAT = 'TRY_NEW_CHAT';
 export const GET_CHATS = 'GET_CHATS';
 export const SET_CHATS = 'SET_CHATS';
+export const GET_CHAT_MESSAGES = 'GET_CHAT_MESSAGES';
+export const SET_CHAT_MESSAGES = 'SET_CHAT_MESSAGES';
 export const CHAT_ERROR = 'CHAT_ERROR';
 export const JOIN_ROOM = 'JOIN_ROOM';
 
@@ -46,6 +48,16 @@ export class SetChats implements Action {
     constructor(public payload: Chat) {}
 }
 
+export class GetChatMessages implements Action {
+    readonly type = GET_CHAT_MESSAGES;
+    constructor(public payload: {chat_id: number, message_id: number}) {}
+}
+
+export class SetChatMessages implements Action {
+    readonly type = SET_CHAT_MESSAGES
+    constructor(public payload: {chat_id: number, messages: Message[]}) {}
+}
+
 export class ChatError implements Action {
     readonly type = CHAT_ERROR;
 }
@@ -55,4 +67,15 @@ export class JoinRoom implements Action {
     constructor(public payload: string) {}
 }
 
-export type ChatActions = AddMessage | SetCurrentChat | NewChat | TryNewChat | GetChats | SetChats | ChatError | JoinRoom | TryAddMessage;
+export type ChatActions = 
+AddMessage | 
+SetCurrentChat | 
+NewChat | 
+TryNewChat | 
+GetChats | 
+SetChats |
+GetChatMessages |
+SetChatMessages |
+ChatError | 
+JoinRoom | 
+TryAddMessage;

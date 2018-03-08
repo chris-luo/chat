@@ -26,7 +26,11 @@ export class ChatsComponent implements OnInit {
 
   onChat(chat: Chat, index: number) {
     this.store.dispatch(new ChatActions.SetCurrentChat(index));
-    this.store.dispatch(new ChatActions.JoinRoom(chat.id));
+    this.store.dispatch(new ChatActions.GetChatMessages({
+      chat_id: chat.id,
+      message_id: chat.messages[0].id
+    }));
+    // this.store.dispatch(new ChatActions.JoinRoom(chat.id));
     this.router.navigate(['chat/chat']);
   }
 

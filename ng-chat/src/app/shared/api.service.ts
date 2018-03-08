@@ -19,4 +19,9 @@ export class ApiService {
     getChats(id: number) {
         return this.http.get(`${this.apiEndPoint}/users/${id}/chats`);
     }
+
+    getChatMessages(id: number, chat_id: number, message_id: number) {
+        const params = new HttpParams().set('message_id', message_id.toString());
+        return this.http.get(`${this.apiEndPoint}/users/${id}/chats/${chat_id}/messages`, { params: params });
+    }
 }

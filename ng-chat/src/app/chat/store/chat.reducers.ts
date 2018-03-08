@@ -38,6 +38,18 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
                 chats: chats,
                 currentChat: 0
             }
+        case ChatActions.SET_CHAT_MESSAGES:
+            const chat2 = state.chats[state.currentChat];
+            const updatedChat2 = {
+                ...chat2,
+                messages: [...action.payload.messages, ...chat2.messages]
+            }
+            const oldChats2 = [...state.chats];
+            oldChats2[state.currentChat] = updatedChat2;
+            return {
+                ...state,
+                chats: oldChats2,
+            }
         case ChatActions.SET_CURRENT_CHAT:
             return {
                 ...state,
