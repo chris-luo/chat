@@ -29,7 +29,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 error: true,
-                message: action.payload.error.message
+                message: action.payload.error
             }
         case AuthActions.RESET_ERROR:
             return {
